@@ -1,0 +1,17 @@
+<%= render @recipe %>
+
+<% if current_user.admin %>
+  <%= link_to 'Edit', edit_recipe_path(@recipe) %>
+  |
+  <%= link_to 'Delete', @recipe, method: :delete, confirm: "Are you sure?" %>
+  |
+<% end %>
+
+<%= link_to 'All Recipes', recipes_path %>
+|
+<% if current_user.admin %>
+  <%= link_to 'Admin Dashboard', admin_dashboard_index_path %>
+<% else %>
+  <%= link_to 'Dashboard', dashboard_index_path %>
+<% end %>
+

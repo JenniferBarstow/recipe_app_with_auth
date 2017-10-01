@@ -1,0 +1,11 @@
+<h2><%= "Editing User: #{@user.full_name} "%></h2>
+
+<%= render 'form' %>
+</br>
+<%= link_to 'Delete', admin_user_path(@user), method: :delete %>
+|
+<%= link_to 'User Index', admin_users_path %> 
+|
+<%= link_to 'Admin Dashboard', admin_dashboard_index_path %>
+
+

@@ -1,0 +1,10 @@
+<center><h1>All Users</h1></center>
+
+<% @users.each do |user| %>
+  <strong><%= link_to user.full_name, admin_user_path(user.id) %></strong>
+  </br>
+<% end%>
+</br>
+
+<%= link_to 'Admin Dashboard', admin_dashboard_index_path %>
+

@@ -1,0 +1,14 @@
+<center>
+  <h1><%= "#{current_user.first_name}'s Dashboard" %></h1>
+  <%= link_to 'My Recipes' %>
+  </br>
+  <%= link_to 'All Recipes', recipes_path %>
+  </br>
+  <%= link_to 'Add New Recipe', new_recipe_path %>
+</center>
+
+<h2><strong> MY RECIPES </strong></h2>
+<% @user_recipes.each do |recipe| %>
+  <%= link_to recipe.name, recipe_path(recipe.id) %>
+</br>
+<% end %>
