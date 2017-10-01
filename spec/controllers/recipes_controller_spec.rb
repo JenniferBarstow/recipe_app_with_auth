@@ -3,17 +3,19 @@ require 'rails_helper'
 RSpec.describe RecipesController, type: :controller do
 
   before :each do @user = User.create(
-      first_name: "Dylan",
-      last_name: "Ham",
-      email: "dylan@example.com",
-      password: "password",
-      password_confirmation: "password"
-     )
+    first_name: "Dylan",
+    last_name: "Ham",
+    email: "dylan@example.com",
+    password: "password",
+    password_confirmation: "password"
+  )
     session[:user_id] = @user.id
   end
 
   describe "GET #index" do
+
     it "returns a success response for logged in user" do
+
       recipe1 = Recipe.create(name: "brownies", ingredients: "coco, butter", instructions: "stir")
       recipe2 = Recipe.create(name: "cookies", ingredients: "flour, butter", instructions: "bake")
       
@@ -24,18 +26,23 @@ RSpec.describe RecipesController, type: :controller do
       expect(assigns(:recipes)).to eq [recipe1, recipe2]
 
     end
+
     it "redirects unathenticated user" do
+
       session.destroy
 
       get :index
 
       expect(response.status).to eq(302)
       expect(response).to redirect_to signin_path
+
     end
   end
 
   describe "GET #show" do
+
     it "shows an individual recipe for authenticated user" do
+
       recipe = Recipe.create(id: 1, name: "brownies", ingredients: "coco, butter", instructions: "stir")
 
       get :show, id: 1
@@ -43,15 +50,18 @@ RSpec.describe RecipesController, type: :controller do
       expect(response.status).to eq(200)
       expect(response).to render_template :show
       expect(assigns(:recipe)).to eq recipe
+
     end
 
     it "redirects unathenticated user" do
+
       session.destroy
 
       get :show, id: 500  
 
       expect(response.status).to eq(302)
       expect(response).to redirect_to signin_path
+
     end
   end
 
@@ -63,15 +73,18 @@ RSpec.describe RecipesController, type: :controller do
       expect(response.status).to eq(200)
       expect(response).to render_template :new
       expect(assigns(:recipe)).to be_a_new(Recipe)
+
     end
 
     it "redirects unathenticated user" do
+
       session.destroy
 
       get :new, id: 500  
 
       expect(response.status).to eq(302)
       expect(response).to redirect_to signin_path
+
     end
   end
 
@@ -81,111 +94,124 @@ RSpec.describe RecipesController, type: :controller do
       expect {
         post :create,
           recipe: {name: "pizza", ingredients: "cheese, peppers", instructions: "cook it"}
-        }.to change {Recipe.all.count}.by(1)
+      }.to change {Recipe.all.count}.by(1)
     end
   end
 
-  it "redirects unathenticated user" do
+    it "redirects unathenticated user" do
+
       session.destroy
 
       post :create 
 
       expect(response.status).to eq(302)
       expect(response).to redirect_to signin_path
+
     end
 
-    describe "GET #edit" do
-      it "lets admin edit a recipe" do 
-        admin_user = User.create(
-          first_name: "Liam",
-          last_name: "Ham",
-          email: "liam@example.com",
-          password: "password",
-          password_confirmation: "password",
-          admin: true
-        )
+  describe "GET #edit" do
 
-        recipe = Recipe.create(id: 2,name: "ice cream", ingredients: "cream, sugar", instructions: "blend")
+    it "lets admin edit a recipe" do 
 
-        session[:user_id] = admin_user.id
+      admin_user = User.create(
+        first_name: "Liam",
+        last_name: "Ham",
+        email: "liam@example.com",
+        password: "password",
+        password_confirmation: "password",
+        admin: true
+      )
 
-        get :edit, id: 2
+      recipe = Recipe.create(id: 2,name: "ice cream", ingredients: "cream, sugar", instructions: "blend")
 
-        expect(response).to render_template :edit
-        expect(response.status).to eq(200)
-        expect(assigns(:recipe)).to eq recipe
-      end
+      session[:user_id] = admin_user.id
 
-      it "doesn't allow non-admins to edit a recipe" do
+      get :edit, id: 2
 
-        get :edit, id: 2
+      expect(response).to render_template :edit
+      expect(response.status).to eq(200)
+      expect(assigns(:recipe)).to eq recipe
 
-        expect(response.status).to eq(302)
-        expect(response).to redirect_to recipes_path
-      end
     end
 
-    describe "PATCH update" do
-      it "allows an admin to update a recipe" do
-        admin_user = User.create(
-          first_name: "Liam",
-          last_name: "Ham",
-          email: "liam@example.com",
-          password: "password",
-          password_confirmation: "password",
-          admin: true
-        )
+    it "doesn't allow non-admins to edit a recipe" do
 
-        session[:user_id] = admin_user.id
-        Recipe.create(id: 3, name: "pizza", ingredients: "cheese, peppers", instructions: "cook it")
+      get :edit, id: 2
+
+      expect(response.status).to eq(302)
+      expect(response).to redirect_to recipes_path
+
+    end
+  end
+
+  describe "PATCH update" do
+    it "allows an admin to update a recipe" do
+
+      admin_user = User.create(
+        first_name: "Liam",
+        last_name: "Ham",
+        email: "liam@example.com",
+        password: "password",
+        password_confirmation: "password",
+        admin: true
+      )
+
+      session[:user_id] = admin_user.id
+
+      Recipe.create(id: 3, name: "pizza", ingredients: "cheese, peppers", instructions: "cook it")
         
-        patch :update, id: 3, recipe: {name: "pepperoni pizza", ingredients: "cheese, pepperoni", instructions: "cook it"}
+      patch :update, id: 3, recipe: {name: "pepperoni pizza", ingredients: "cheese, pepperoni", instructions: "cook it"}
 
-        expect(response.status).to eq(302)
-        expect(response).to redirect_to recipe_path(3)
-        expect(Recipe.find(3).name).to eq("pepperoni pizza")
-      end
+      expect(response.status).to eq(302)
+      expect(response).to redirect_to recipe_path(3)
+      expect(Recipe.find(3).name).to eq("pepperoni pizza")
 
-      it "doesn't allow non-admins to update a recipe" do
-
-        patch :update, id: 10
-
-        expect(response.status).to eq(302)
-        expect(response).to redirect_to recipes_path
-      end
     end
 
-    describe "DELETE" do
-      it "allows an admin to delete a recipe" do
-          admin_user = User.create(
-          first_name: "Liam",
-          last_name: "Ham",
-          email: "liam@example.com",
-          password: "password",
-          password_confirmation: "password",
-          admin: true
-        )
+    it "doesn't allow non-admins to update a recipe" do
 
-        session[:user_id] = admin_user.id
+      patch :update, id: 10
 
-        recipe = Recipe.create(id: 20, name: "ramen", ingredients: "noodles, broth", instructions: "boil it")
+      expect(response.status).to eq(302)
+      expect(response).to redirect_to recipes_path
+    
+    end
+  end
 
-        delete :destroy, id: recipe.id
+  describe "DELETE" do
 
-        expect(response.status).to eq(302)
-        expect(response).to redirect_to recipes_path
-        expect(Recipe.all.count).to eq(0)
-      end
+    it "allows an admin to delete a recipe" do
 
-      it "restricts non-admins from deleting recipes" do
+      admin_user = User.create(
+        first_name: "Liam",
+        last_name: "Ham",
+        email: "liam@example.com",
+        password: "password",
+        password_confirmation: "password",
+        admin: true
+      )
 
-        recipe = Recipe.create(id: 20, name: "ramen", ingredients: "noodles, broth", instructions: "boil it")
-        delete :destroy, id: recipe.id
+      session[:user_id] = admin_user.id
 
-        expect(response.status).to eq(302)
-        expect(response).to redirect_to recipes_path
-        expect(Recipe.all.count).to eq(1)
-      end
+      recipe = Recipe.create(id: 20, name: "ramen", ingredients: "noodles, broth", instructions: "boil it")
+
+      delete :destroy, id: recipe.id
+
+      expect(response.status).to eq(302)
+      expect(response).to redirect_to recipes_path
+      expect(Recipe.all.count).to eq(0)
+      
     end
 
+    it "restricts non-admins from deleting recipes" do
+
+      recipe = Recipe.create(id: 20, name: "ramen", ingredients: "noodles, broth", instructions: "boil it")
+      delete :destroy, id: recipe.id
+
+      expect(response.status).to eq(302)
+      expect(response).to redirect_to recipes_path
+      expect(Recipe.all.count).to eq(1)
+
+    end
+  end
 end

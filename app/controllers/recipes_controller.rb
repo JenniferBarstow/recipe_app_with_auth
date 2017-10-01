@@ -4,6 +4,13 @@ class RecipesController < ApplicationController
 
   def index
     @recipes = Recipe.all
+    respond_to do |format|
+      format.html do
+      end
+      format.json do
+        render json: @recipes
+      end
+    end
   end
 
   def new
