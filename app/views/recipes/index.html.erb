@@ -1,12 +1,10 @@
 <center><h1>All recipes</h1></center>
 
-
 <% @recipes.each do |recipe| %>
   <strong><%= link_to recipe.name, recipe_path(recipe.id) %></strong>
   </br>
 <% end %>
 </br>
-
 
 <% if current_user.admin %>
   <%= link_to 'Admin Dashboard', admin_dashboard_index_path %>
