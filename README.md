@@ -17,18 +17,18 @@ Create Database
 Run Migrations
 `rake db:migrate`
 
-Create Admin
-To interact as an Admin, first create one in your rails console with the admin boolean set to true. `admin: = true`
+
+To interact as an Admin, create one in your rails console with the admin boolean set to true. `admin: = true`
 
 Start up your server!
 `rails server`
 
-Visit http://localhost:3000
+Visit localhost:3000
 
 ### Testing
 
 **Controller and Model Tests**
-*located in the spec directory*
+located in the spec directory
 
 To run tests run 
 `$ rspec`
