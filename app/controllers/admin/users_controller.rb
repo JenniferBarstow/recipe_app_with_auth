@@ -36,7 +36,6 @@ class Admin::UsersController < ApplicationController
     end
   end
 
-
   def destroy
     User.destroy(params[:id])
     redirect_to admin_users_path
@@ -54,5 +53,4 @@ class Admin::UsersController < ApplicationController
       redirect_to recipes_path
     end
   end
-
 end

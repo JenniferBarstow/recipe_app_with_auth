@@ -2,7 +2,6 @@ class ApplicationController < ActionController::Base
 
   helper_method :current_user
   protect_from_forgery with: :exception
-  #before_filter :ensure_current_user
 
   def current_user
     User.find_by(id: session[:user_id])

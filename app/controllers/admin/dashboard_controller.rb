@@ -15,5 +15,4 @@ class Admin::DashboardController < ApplicationController
       redirect_to recipes_path
     end
   end
-
 end

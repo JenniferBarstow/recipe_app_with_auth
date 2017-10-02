@@ -13,7 +13,6 @@ RSpec.describe RecipesController, type: :controller do
   end
 
   describe "GET #index" do
-
     it "returns a success response for logged in user" do
 
       recipe1 = Recipe.create(name: "brownies", ingredients: "coco, butter", instructions: "stir")
@@ -24,7 +23,6 @@ RSpec.describe RecipesController, type: :controller do
       expect(response.status).to eq(200)
       expect(response).to render_template :index
       expect(assigns(:recipes)).to eq [recipe1, recipe2]
-
     end
 
     it "redirects unathenticated user" do
@@ -35,12 +33,10 @@ RSpec.describe RecipesController, type: :controller do
 
       expect(response.status).to eq(302)
       expect(response).to redirect_to signin_path
-
     end
   end
 
   describe "GET #show" do
-
     it "shows an individual recipe for authenticated user" do
 
       recipe = Recipe.create(id: 1, name: "brownies", ingredients: "coco, butter", instructions: "stir")
@@ -50,7 +46,6 @@ RSpec.describe RecipesController, type: :controller do
       expect(response.status).to eq(200)
       expect(response).to render_template :show
       expect(assigns(:recipe)).to eq recipe
-
     end
 
     it "redirects unathenticated user" do
@@ -61,7 +56,6 @@ RSpec.describe RecipesController, type: :controller do
 
       expect(response.status).to eq(302)
       expect(response).to redirect_to signin_path
-
     end
   end
 
@@ -73,7 +67,6 @@ RSpec.describe RecipesController, type: :controller do
       expect(response.status).to eq(200)
       expect(response).to render_template :new
       expect(assigns(:recipe)).to be_a_new(Recipe)
-
     end
 
     it "redirects unathenticated user" do
@@ -84,7 +77,6 @@ RSpec.describe RecipesController, type: :controller do
 
       expect(response.status).to eq(302)
       expect(response).to redirect_to signin_path
-
     end
   end
 
@@ -106,11 +98,9 @@ RSpec.describe RecipesController, type: :controller do
 
       expect(response.status).to eq(302)
       expect(response).to redirect_to signin_path
-
     end
 
   describe "GET #edit" do
-
     it "lets admin edit a recipe" do 
 
       admin_user = User.create(
@@ -131,7 +121,6 @@ RSpec.describe RecipesController, type: :controller do
       expect(response).to render_template :edit
       expect(response.status).to eq(200)
       expect(assigns(:recipe)).to eq recipe
-
     end
 
     it "doesn't allow non-admins to edit a recipe" do
@@ -140,7 +129,6 @@ RSpec.describe RecipesController, type: :controller do
 
       expect(response.status).to eq(302)
       expect(response).to redirect_to recipes_path
-
     end
   end
 
@@ -165,7 +153,6 @@ RSpec.describe RecipesController, type: :controller do
       expect(response.status).to eq(302)
       expect(response).to redirect_to recipe_path(3)
       expect(Recipe.find(3).name).to eq("pepperoni pizza")
-
     end
 
     it "doesn't allow non-admins to update a recipe" do
@@ -173,8 +160,7 @@ RSpec.describe RecipesController, type: :controller do
       patch :update, id: 10
 
       expect(response.status).to eq(302)
-      expect(response).to redirect_to recipes_path
-    
+      expect(response).to redirect_to recipes_path  
     end
   end
 
@@ -199,8 +185,7 @@ RSpec.describe RecipesController, type: :controller do
 
       expect(response.status).to eq(302)
       expect(response).to redirect_to recipes_path
-      expect(Recipe.all.count).to eq(0)
-      
+      expect(Recipe.all.count).to eq(0)   
     end
 
     it "restricts non-admins from deleting recipes" do
@@ -211,7 +196,6 @@ RSpec.describe RecipesController, type: :controller do
       expect(response.status).to eq(302)
       expect(response).to redirect_to recipes_path
       expect(Recipe.all.count).to eq(1)
-
     end
   end
 end

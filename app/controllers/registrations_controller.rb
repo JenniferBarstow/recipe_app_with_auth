@@ -11,7 +11,9 @@ class RegistrationsController < ApplicationController
         :email,
         :password,
         :password_confirmation
-    ))
+      )
+    )
+    
     if @user.save
       session[:user_id] = @user.id
       flash[:notice] = "You have successfully signed up"
@@ -20,5 +22,4 @@ class RegistrationsController < ApplicationController
       render :new
     end
   end
-
 end

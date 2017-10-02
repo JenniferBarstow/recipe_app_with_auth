@@ -24,12 +24,12 @@
 
 <h2><strong> User index </strong></h2>
 
-  <% @users.each do |user| %>
-    <ul>
-      <li><strong> <%= link_to user.first_name, admin_user_path(user.id) %> </strong></li>
-      <%= link_to 'Edit', edit_admin_user_path(user.id) %>
-        |
-      <%= link_to 'Delete', admin_user_path(user.id), method: :delete, confirm: "Are you sure?" %>
-    </ul>
-  <% end %>
+<% @users.each do |user| %>
+  <ul>
+    <li><strong> <%= link_to user.first_name, admin_user_path(user.id) %> </strong></li>
+    <%= link_to 'Edit', edit_admin_user_path(user.id) %>
+    |
+    <%= link_to 'Delete', admin_user_path(user.id), method: :delete, confirm: "Are you sure?" %>
+  </ul>
+<% end %>
     

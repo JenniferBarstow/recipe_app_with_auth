@@ -11,7 +11,7 @@ class SessionsController < ApplicationController
       if user.admin
         redirect_to admin_dashboard_index_path
       else
-      redirect_to dashboard_index_path
+        redirect_to dashboard_index_path
       end
     else
       @sign_in_error = "Email / password combination is invalid"
@@ -24,5 +24,4 @@ class SessionsController < ApplicationController
     flash[:notice] = "See ya next time!"
     render :new
   end
-
 end

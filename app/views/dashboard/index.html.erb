@@ -10,5 +10,5 @@
 <h2><strong> MY RECIPES </strong></h2>
 <% @user_recipes.each do |recipe| %>
   <%= link_to recipe.name, recipe_path(recipe.id) %>
-</br>
+  </br>
 <% end %>

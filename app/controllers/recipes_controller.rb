@@ -5,11 +5,8 @@ class RecipesController < ApplicationController
   def index
     @recipes = Recipe.all
     respond_to do |format|
-      format.html do
-      end
-      format.json do
-        render json: @recipes
-      end
+      format.html
+      format.json {render json: @recipes}
     end
   end
 
@@ -29,11 +26,8 @@ class RecipesController < ApplicationController
   def show
     @recipe = Recipe.find(params[:id])
     respond_to do |format|
-      format.html do
-      end
-      format.json do
-        render json: @recipe
-      end
+      format.html 
+      format.json {render json: @recipe}
     end
   end
 
@@ -64,9 +58,7 @@ class RecipesController < ApplicationController
     end
   end
 
-
   def recipe_params
     params.require(:recipe).permit(:name, :ingredients, :instructions, :user_id )
   end
-
 end

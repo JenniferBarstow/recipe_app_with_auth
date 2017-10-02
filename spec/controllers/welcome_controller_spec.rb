@@ -5,6 +5,7 @@ describe WelcomeController do
     it "Should render the Welcome view" do
 
       get :index
+      
       expect(response).to render_template(:index)
     end
   end

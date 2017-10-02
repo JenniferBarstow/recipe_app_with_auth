@@ -7,7 +7,6 @@ class User < ActiveRecord::Base
   validates :email, presence: true
   validates :password, presence: true
   validates :password_confirmation, presence: true
-
   validates :email, uniqueness: true
   validates_format_of :email, with: /@/
 
@@ -16,7 +15,6 @@ class User < ActiveRecord::Base
   end
 
   def full_name
-    "#{self.first_name } #{self.last_name} "
+    "#{self.first_name } #{self.last_name}"
   end
-
 end
